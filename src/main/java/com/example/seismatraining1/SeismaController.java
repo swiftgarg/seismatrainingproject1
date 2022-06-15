@@ -12,16 +12,17 @@ import org.springframework.web.multipart.MultipartFile;
     public class SeismaController {
 
         private AmazonClientService amazonClient;
-
+        private SqsService sqsServiceClient;
 
         @Autowired
-        SeismaController(AmazonClientService amazonClient) {
+        SeismaController(AmazonClientService amazonClient, SqsService sqsServiceClient) {
             this.amazonClient = amazonClient;
+            this.sqsServiceClient = sqsServiceClient;
         }
 
         @PostMapping("/uploadFile")
         public String uploadFile(@RequestPart(value = "file") MultipartFile file) {
-            return this.amazonClient.uploadFile(file);
+            return this.sqsServiceClient.sendMessageToQueue(this.amazonClient.uploadFile(file));
         }
 
     }
