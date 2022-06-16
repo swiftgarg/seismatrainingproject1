@@ -1,12 +1,10 @@
 package com.example.seismatraining1;
 
 import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -22,7 +20,7 @@ import java.io.IOException;
 
 @Service
 @ConfigurationProperties(prefix = "amazonproperties")
-public class AmazonClientService {
+public class AmazonClientS3Service {
 
 
     private AmazonS3 s3client;
@@ -80,6 +78,16 @@ public class AmazonClientService {
 
         return fileUrl;
     }
+
+
+    public  File downloadFileFromS3Bucket(String fileURL){
+        File file = null;
+    //PUT CODE WHEN URL IS SENT, DOWNLOAD AND RETURN FILE
+
+        return file;
+    }
+
+
 
 
 
