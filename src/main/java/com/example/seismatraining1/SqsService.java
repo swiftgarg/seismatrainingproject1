@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 
 @Service
-@ConfigurationProperties(prefix = "localstack")
+@ConfigurationProperties(prefix = "amazonproperties")
 public class SqsService {
 
 

@@ -22,7 +22,9 @@ import org.springframework.web.multipart.MultipartFile;
 
         @PostMapping("/uploadFile")
         public String uploadFile(@RequestPart(value = "file") MultipartFile file) {
-            return this.sqsServiceClient.sendMessageToQueue(this.amazonClient.uploadFile(file));
+            String urlOfUploadedFile = this.amazonClient.uploadFile(file);
+            String messageSentToSqs = this.sqsServiceClient.sendMessageToQueue(urlOfUploadedFile);;
+            return urlOfUploadedFile + "    " + messageSentToSqs;
         }
 
     }

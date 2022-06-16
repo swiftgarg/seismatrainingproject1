@@ -1,10 +1,13 @@
 package com.example.seismatraining1;
 
 import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 
+import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 @Service
-@ConfigurationProperties(prefix = "localstack")
+@ConfigurationProperties(prefix = "amazonproperties")
 public class AmazonClientService {
 
 
@@ -39,7 +42,12 @@ public class AmazonClientService {
     @PostConstruct
     private void setCredentialsAndInitializeConnection() {
         AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
-        this.s3client = new AmazonS3Client(credentials);
+        this.s3client = AmazonS3ClientBuilder.standard()
+                 .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://localhost:4566/",""))
+                .withPathStyleAccessEnabled(true)//////VERY VERY IMPORATANT else cannot find localstack paths
+                // .withCredentials(new AWSStaticCredentialsProvider(credentials))
+                //.withRegion("us-west-2")
+                .build();
     }
 
     //S3 bucket uploading method requires File as a parameter, but we have MultipartFile, so we need to add method which can do this
