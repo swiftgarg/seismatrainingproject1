@@ -21,11 +21,7 @@ import java.io.IOException;
 @Service
 @ConfigurationProperties(prefix = "amazonproperties")
 public class AmazonClientS3Service {
-
-
     private AmazonS3 s3client;
-
-
     @Value("${endpointUrl}")
     private String endpointUrl;
     @Value("${bucketName}")
@@ -42,7 +38,7 @@ public class AmazonClientS3Service {
         AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
         this.s3client = AmazonS3ClientBuilder.standard()
                  .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://localhost:4566/",""))
-                .withPathStyleAccessEnabled(true)//////VERY VERY IMPORATANT else cannot find localstack paths
+                .withPathStyleAccessEnabled(true)//AWS Work make sure//////VERY VERY IMPORATANT else cannot find localstack paths
                 // .withCredentials(new AWSStaticCredentialsProvider(credentials))
                 //.withRegion("us-west-2")
                 .build();
@@ -71,7 +67,6 @@ public class AmazonClientS3Service {
             String fileName = multipartFile.getOriginalFilename();
             fileUrl = endpointUrl + "/" + bucketName + "/" + fileName;
             uploadFileTos3bucket(fileName, file);
-            file.delete();
         } catch (Exception e) {
             e.printStackTrace();
         }

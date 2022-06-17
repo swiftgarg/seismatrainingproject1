@@ -11,6 +11,7 @@ import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
 import com.amazonaws.services.sqs.model.CreateQueueRequest;
 import com.amazonaws.services.sqs.model.Message;
+import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
 import com.amazonaws.services.sqs.model.SendMessageRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -60,8 +61,12 @@ public class SqsService {
 
     }
     public String readMessagesFromQueue(){
-        List<Message> messages = sqsClient.receiveMessage(queue_url).getMessages();
+        ReceiveMessageRequest receiveMessageRequest =  new ReceiveMessageRequest()
+                .withQueueUrl(queue_url)
+                .withMaxNumberOfMessages(10);
 
+
+        List<Message> messages = sqsClient.receiveMessage(receiveMessageRequest).getMessages();
         return messages.toString();
     }
 
