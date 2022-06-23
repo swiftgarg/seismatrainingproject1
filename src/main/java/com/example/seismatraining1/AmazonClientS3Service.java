@@ -7,6 +7,7 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -53,7 +54,7 @@ public class AmazonClientS3Service {
         return convertedFile;
     }
 
-    private void uploadFileTos3bucket(String fileName, File file) {
+     void uploadFileTos3bucket(String fileName, File file) {
         s3client.putObject(new PutObjectRequest(bucketName, fileName, file)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
     }
@@ -75,9 +76,14 @@ public class AmazonClientS3Service {
     }
 
 
+
+
     public  File downloadFileFromS3Bucket(String fileURL){
-        File file = null;
-    //PUT CODE WHEN URL IS SENT, DOWNLOAD AND RETURN FILE
+        GetObjectRequest getObjectRequest = new GetObjectRequest(bucketName,"employees.csv");
+
+        File file = new File("csv_testfiles/downloaded.csv");
+        s3client.getObject(getObjectRequest,file);
+    //WHEN URL IS SENT, DOWNLOAD AND RETURN FILE
 
         return file;
     }

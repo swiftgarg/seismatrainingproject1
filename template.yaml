@@ -1,0 +1,44 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Seisma Test Project
+Resources:
+  AwsLambdaSqsLocal:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: com.example.seismatraining1.ConvertCsvToJsonService.handleRequest
+      Runtime: java11
+      CodeUri: ./
+      Events:
+        SqsEvent:
+          Type: SQS
+          Properties:
+            Queue: arn:aws:sqs:us-west-2:000000000000:seismaMessageSqsQueue3
+            BatchSize: 10
+        Handler:
+          Type: Api
+          Properties:
+            Path: /
+            Method: get
+      Environment:
+        Variables:
+          SPRING_PROFILES_ACTIVE: default
+  FileUploadedLocal:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: com.example.seismatraining1.FileUploadHandler.handleRequest
+      Runtime: java11
+      CodeUri: ./
+      Events:
+        SqsEvent:
+          Type: SQS
+          Properties:
+            Queue: arn:aws:sqs:us-west-2:000000000000:seismaMessageSqsQueue3
+            BatchSize: 10
+        Handler:
+          Type: Api
+          Properties:
+            Path: /
+            Method: get
+      Environment:
+        Variables:
+          SPRING_PROFILES_ACTIVE: default
