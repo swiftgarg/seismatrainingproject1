@@ -54,9 +54,10 @@ public class AmazonClientS3Service {
         return convertedFile;
     }
 
-     void uploadFileTos3bucket(String fileName, File file) {
+     public String uploadFileTos3bucket(String fileName, File file) {
         s3client.putObject(new PutObjectRequest(bucketName, fileName, file)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
+        return endpointUrl + "/" + bucketName + "/" + fileName;
     }
 
 
@@ -66,8 +67,7 @@ public class AmazonClientS3Service {
         try {
             File file = convertMultiPartToFile(multipartFile);
             String fileName = multipartFile.getOriginalFilename();
-            fileUrl = endpointUrl + "/" + bucketName + "/" + fileName;
-            uploadFileTos3bucket(fileName, file);
+            fileUrl = uploadFileTos3bucket(fileName, file);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -78,11 +78,11 @@ public class AmazonClientS3Service {
 
 
 
-    public  File downloadFileFromS3Bucket(String fileURL){
-        GetObjectRequest getObjectRequest = new GetObjectRequest(bucketName,"employees.csv");
+    public  File downloadFileFromS3Bucket(){
+      GetObjectRequest getObjectRequest = new GetObjectRequest(bucketName,"employees.csv");
 
-        File file = new File("csv_testfiles/downloaded.csv");
-        s3client.getObject(getObjectRequest,file);
+      File file = new File("csv_testfiles/downloaded.csv");
+      s3client.getObject(getObjectRequest,file);
     //WHEN URL IS SENT, DOWNLOAD AND RETURN FILE
 
         return file;

@@ -11,9 +11,13 @@ public class FileUploadHandler implements RequestHandler<SQSEvent, String> {
 
     private AmazonClientS3Service clientS3Service;
 
+    public FileUploadHandler(){
+        super();
+    }
+
 
     @Autowired
-    FileUploadHandler(AmazonClientS3Service amazonClient) {
+    public FileUploadHandler(AmazonClientS3Service amazonClient) {
         this.clientS3Service = amazonClient;
 
     }

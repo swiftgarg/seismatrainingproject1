@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -15,7 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.NotYetBoundException;
 
-@SpringBootTest
+@SpringBootTest()
 @ConfigurationProperties(prefix = "amazonproperties")
 class Seismatraining1ApplicationTests {
 
@@ -28,6 +29,7 @@ class Seismatraining1ApplicationTests {
 	private String accessKey;
 	@Value("${secretKey}")
 	private String secretKey;
+
 
 
 	private AmazonClientS3Service amazonClient;

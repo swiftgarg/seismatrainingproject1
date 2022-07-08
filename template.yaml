@@ -5,9 +5,11 @@ Resources:
   AwsLambdaSqsLocal:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: com.example.seismatraining1.ConvertCsvToJsonService.handleRequest
+      Handler: com.example.seismatraining1.ConvertCsvToJsonService
+      MemorySize: 512
       Runtime: java11
       CodeUri: ./
+      Timeout: 50
       Events:
         SqsEvent:
           Type: SQS
@@ -25,9 +27,10 @@ Resources:
   FileUploadedLocal:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: com.example.seismatraining1.FileUploadHandler.handleRequest
+      Handler: com.example.seismatraining1.FileUploadHandler
       Runtime: java11
       CodeUri: ./
+      Timeout: 50
       Events:
         SqsEvent:
           Type: SQS
